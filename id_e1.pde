@@ -7,9 +7,9 @@ void setup() {
   size(180, 600);  
   baseImg = loadImage("sphere60.jpg");
   generateImg1 = transform(baseImg);  //<>//
-  generateImg2 = transform(baseImg); 
-  generateImg3 = transform(baseImg); 
- 
+  generateImg2 = transformStatic(baseImg, "a"); 
+  generateImg3 = transformStatic(baseImg, "b"); 
+  
 }
 
 
@@ -22,6 +22,21 @@ void draw() {
  
 }
 
+PImage transformStatic(PImage baseImg, String dotSerie) {
+  PImage generateImg = createImage(baseImg.width*3, baseImg.height*3, RGB);
+  float baseRedValue, transformedRedValue; 
+  PImage temp; 
+  for(int i = 0; i < baseImg.height; i++ ){
+    for(int j = 0; j < baseImg.width; j++ ){
+       baseRedValue = green(baseImg.get(j,i));
+       transformedRedValue = map(baseRedValue, 255, 0 ,0,9) ; 
+       temp =  loadImage("dot3x3-" + dotSerie + "-" + str(floor(transformedRedValue)) + ".jpg"); ; 
+       generateImg.set(j*3, i*3, temp); 
+    }
+  }
+  return generateImg; 
+
+}
 
 PImage transform(PImage baseImg) {
   PImage generateImg = createImage(baseImg.width*3, baseImg.height*3, RGB);
@@ -30,8 +45,8 @@ PImage transform(PImage baseImg) {
   for(int i = 0; i < baseImg.height; i++ ){
     for(int j = 0; j < baseImg.width; j++ ){
        baseRedValue = green(baseImg.get(j,i));
-       transformedRedValue = map(baseRedValue, 0, 255,0,9) ; 
-       temp = create3x3RandomPImage(floor(transformedRedValue), color(255,255,255,255), color(255,0,0,255)); 
+       transformedRedValue = map(baseRedValue, 255, 0,0,9) ; 
+       temp = create3x3RandomPImage(floor(transformedRedValue), color(255,255,255,255), color(0,0,0,255)); 
        generateImg.set(j*3, i*3, temp); 
     }
   }
